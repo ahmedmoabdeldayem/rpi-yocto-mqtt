@@ -1,0 +1,9 @@
+# Yocto build outputs (keep build/conf/)
+build/tmp/
+build/cache/
+build/downloads/
+build/sstate-cache/
+
+# macOS
+.DS_Store
+
