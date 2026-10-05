@@ -1,8 +1,12 @@
-# Yocto build outputs (keep build/conf/)
+# Yocto build outputs
 build/tmp/
 build/cache/
 build/downloads/
 build/sstate-cache/
+
+# Machine-specific build config (copy from *.template to get started)
+build/conf/bblayers.conf
+build/conf/local.conf
 
 # macOS
 .DS_Store
