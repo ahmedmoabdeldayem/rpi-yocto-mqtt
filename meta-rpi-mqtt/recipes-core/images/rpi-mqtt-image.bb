@@ -13,8 +13,7 @@ IMAGE_INSTALL:append = " \
     python3 \
     python3-paho-mqtt \
     mqtt-healthcheck \
-    htop \
-    nano \
+    ${@bb.utils.contains('EXTRA_IMAGE_FEATURES', 'debug-tweaks', 'htop nano', '', d)} \
 "
 
 # Keep image size small

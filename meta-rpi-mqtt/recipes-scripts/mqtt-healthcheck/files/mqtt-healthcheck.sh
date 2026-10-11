@@ -12,8 +12,15 @@ RESULT_FILE="/tmp/mqtt-healthcheck-$$"
 mosquitto_sub -h "$BROKER" -t "$TOPIC" -C 1 -W 3 > "$RESULT_FILE" &
 SUB_PID=$!
 
-sleep 0.2
-mosquitto_pub -h "$BROKER" -t "$TOPIC" -m "$PAYLOAD"
+# Wait up to 2 s for the subscriber to connect before publishing.
+# A fixed 0.2s sleep is too short on a loaded system; retry the publish
+# until the subscriber receives it or the timeout expires.
+i=0
+while [ $i -lt 10 ]; do
+    sleep 0.2
+    mosquitto_pub -h "$BROKER" -t "$TOPIC" -m "$PAYLOAD" 2>/dev/null && break
+    i=$((i + 1))
+done
 
 wait $SUB_PID
 RESULT=$(cat "$RESULT_FILE")
